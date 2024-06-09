@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { adminGetAll as getAllOrders } from '../http/orderAPI.js'
-import { Button, Container, Spinner } from 'react-bootstrap'
+import { Button, Container, Spinner, Alert } from 'react-bootstrap'
 import Orders from '../components/Orders.js'
 import CreateOrder from '../components/CreateOrder.js'
 
@@ -8,12 +8,20 @@ const AdminOrders = () => {
     const [orders, setOrders] = useState(null)
     const [fetching, setFetching] = useState(true)
     const [show, setShow] = useState(false)
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         getAllOrders()
             .then(
-                data => setOrders(data)
+                data => {
+                    console.log("Fetched orders from API in AdminOrders:", data);
+                    setOrders(data);
+                }
             )
+            .catch(error => {
+                console.error("Error fetching orders in AdminOrders:", error);
+                setError(error);
+            })
             .finally(
                 () => setFetching(false)
             )
@@ -21,6 +29,10 @@ const AdminOrders = () => {
 
     if (fetching) {
         return <Spinner animation="border" />
+    }
+
+    if (error) {
+        return <Alert variant="danger">Ошибка при загрузке заказов: {error.message}</Alert>;
     }
 
     return (

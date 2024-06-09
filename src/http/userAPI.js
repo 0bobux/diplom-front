@@ -32,7 +32,7 @@ export const logout = () => {
 }
 
 export const check = async () => {
-    let userToken, userData
+    let userData
     try {
         let userToken = localStorage.getItem('token')
         // если в хранилище нет действительного токена

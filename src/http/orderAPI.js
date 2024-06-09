@@ -11,8 +11,13 @@ export const adminCreate = async (body) => {
 }
 // получить список всех заказов магазина
 export const adminGetAll = async () => {
+    try {
     const { data } = await authInstance.get('order/admin/getall')
     return data
+} catch (error) {
+    console.error("Error config:", error.config);
+    throw error;
+}
 }
 // получить список заказов пользователя
 export const adminGetUser = async (id) => {

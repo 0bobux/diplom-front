@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 
 const Orders = (props) => {
 
+    const items = props.items || [];  // Проверка на null
+    console.log("Orders component received items:", items);
+
     if (props.items.length === 0) {
         return <p>Список заказов пустой</p>
     }
